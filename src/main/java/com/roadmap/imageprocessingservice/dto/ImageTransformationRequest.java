@@ -1,4 +1,4 @@
-package com.roadmap.imageprocessingservice.model;
+package com.roadmap.imageprocessingservice.dto;
 
 
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.roadmap.imageprocessingservice.entity;
+package com.roadmap.imageprocessingservice.model;
 
 
 import jakarta.persistence.*;

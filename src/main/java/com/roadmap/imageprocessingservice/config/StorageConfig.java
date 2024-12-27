@@ -12,10 +12,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class StorageConfig {
 
-    @Value("${cloud.aws.credentials.access-key}")
+    @Value("forUploadingToGitHub")
     private String accessKey;
 
-    @Value("${cloud.aws.credentials.secret-key}")
+    @Value("forUploadingToGitHub")
     private String accessSecret;
     @Value("${cloud.aws.region.static}")
     private String region;
