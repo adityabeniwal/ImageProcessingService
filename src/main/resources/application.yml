@@ -2,17 +2,14 @@ cloud:
   aws:
     credentials:
       access-key:
-      secret-key:
+      secret-key: 
     region:
       static: eu-north-1
     stack:
       auto: false
 
 
+
 application:
   bucket:
     name: adi-image-processing-project-bucket
-
-logging:
-  level:
-    org.springframework.boot.context.config: DEBUG

@@ -1,6 +1,7 @@
 package com.roadmap.imageprocessingservice.controller;
 
 import com.roadmap.imageprocessingservice.service.AwsStorageService;
+import com.roadmap.imageprocessingservice.service.ImageProcessingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
@@ -12,17 +13,35 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/file")
 public class StorageController {
 
-    @Autowired
+
     private AwsStorageService service;
+    private ImageProcessingService imageProcessingService;
+
+
+
+    @Autowired
+    public StorageController(AwsStorageService service,ImageProcessingService imageProcessingService) {
+        this.imageProcessingService=imageProcessingService;
+        this.service = service;
+    }
+
+
+
+
+
+
+
+    //working code below for aws
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam(value = "file") MultipartFile file) {
-        return new ResponseEntity<>(service.uploadFile(file), HttpStatus.OK);
+        return new ResponseEntity<>(service.uploadFile(file,"test"), HttpStatus.OK);
     }
 
     @GetMapping("/download/{fileName}")
-    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String fileName) {
+    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String fileName) throws Exception {
         byte[] data = service.downloadFile(fileName);
+        data = imageProcessingService.transformImage(data,250,250);
         ByteArrayResource resource = new ByteArrayResource(data);
         return ResponseEntity
                 .ok()

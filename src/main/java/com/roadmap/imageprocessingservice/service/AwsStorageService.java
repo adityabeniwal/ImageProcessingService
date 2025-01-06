@@ -19,15 +19,21 @@ import java.io.IOException;
 @Slf4j
 public class AwsStorageService
 {
+
     @Value("${application.bucket.name}")
     private String bucketName;
 
-    @Autowired
+
     private AmazonS3 s3Client;
 
-    public String uploadFile(MultipartFile file) {
+    @Autowired
+    public AwsStorageService(AmazonS3 s3Client) {
+        this.s3Client = s3Client;
+    }
+
+    public String uploadFile(MultipartFile file, String fileName) {
         File fileObj = convertMultiPartFileToFile(file);
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
         s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
         fileObj.delete();
         return "File uploaded : " + fileName;
