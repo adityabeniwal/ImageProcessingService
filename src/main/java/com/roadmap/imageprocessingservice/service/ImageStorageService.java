@@ -1,6 +1,7 @@
 package com.roadmap.imageprocessingservice.service;
 
 
+import com.roadmap.imageprocessingservice.dto.RetrieveImageResponseDto;
 import com.roadmap.imageprocessingservice.dto.UploadImageResponseDTO;
 import com.roadmap.imageprocessingservice.model.ImageEntity;
 import com.roadmap.imageprocessingservice.model.ImageRepo;
@@ -38,5 +39,14 @@ public class ImageStorageService
         awsStorageService.uploadFile(file,imageEntity.getFileName());
 
         return modelMapper.map(imageEntity, UploadImageResponseDTO.class);
+    }
+
+    public RetrieveImageResponseDto retrieveImage (int imageId)
+    {
+        String fileName = imageRepo.findById(imageId).getFileName();
+        RetrieveImageResponseDto retrieveImageResponseDto = new RetrieveImageResponseDto();
+        retrieveImageResponseDto.data = awsStorageService.downloadFile(fileName);
+        retrieveImageResponseDto.fileName=fileName;
+        return retrieveImageResponseDto;
     }
 }
